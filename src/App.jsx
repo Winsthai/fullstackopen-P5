@@ -8,6 +8,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('') 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
@@ -34,6 +37,7 @@ const App = () => {
         username, password,
       })
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -49,6 +53,23 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem('loggedInUser')
     setUser(null)
+  }
+
+  const createNote = async (event) => {
+    event.preventDefault()
+
+    try {
+      const blogData = {title, author, url}
+      const newBlog = await blogService.createBlog(blogData)
+      setBlogs(blogs.concat(newBlog))
+
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+
+    } catch (exception) {
+      // Creating note was unsuccessful
+    }
   }
 
   if (user === null) {
@@ -88,6 +109,36 @@ const App = () => {
         {user.name} logged in
         <button onClick={ logOut }>logout</button>
       </div>
+
+      <h2>create new</h2>
+
+      <form onSubmit={ createNote }>
+        title: 
+        <input
+        type="text" 
+        value={title} 
+        onChange={({ target }) => setTitle(target.value)}
+        />
+        <br/>
+        
+        author: 
+        <input
+        type="text" 
+        value={author} 
+        onChange={({ target }) => setAuthor(target.value)}
+        />
+        <br/>
+
+        url: 
+        <input
+        type="text" 
+        value={url} 
+        onChange={({ target }) => setUrl(target.value)}
+        />
+        <br/>
+        <button type="submit" >create</button>
+      </form>
+      <br/>
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
