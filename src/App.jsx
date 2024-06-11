@@ -16,6 +16,15 @@ const App = () => {
     )  
   }, [])
 
+  // Effect hook to check if user is already logged in
+  useEffect(() => {
+    const loggedInUser = window.localStorage.getItem('loggedInUser')
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser)
+      setUser(user)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -29,10 +38,17 @@ const App = () => {
       setUsername('')
       setPassword('')
 
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
+
     } catch (exception) {
       // Login was unsuccessful
       setErrorMessage('Wrong credentials')
     }
+  }
+
+  const logOut = () => {
+    window.localStorage.removeItem('loggedInUser')
+    setUser(null)
   }
 
   if (user === null) {
@@ -70,6 +86,7 @@ const App = () => {
 
       <div>
         {user.name} logged in
+        <button onClick={ logOut }>logout</button>
       </div>
 
       {blogs.map(blog =>
