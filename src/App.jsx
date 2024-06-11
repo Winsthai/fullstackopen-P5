@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,7 +12,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [messageColor, setMessageColor] = useState("red")
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -25,6 +27,7 @@ const App = () => {
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -47,6 +50,9 @@ const App = () => {
     } catch (exception) {
       // Login was unsuccessful
       setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -67,8 +73,19 @@ const App = () => {
       setAuthor('')
       setUrl('')
 
+      // Set notification to show up for 5 seconds when a new blog is added
+      setMessageColor("green")
+      setErrorMessage(`${newBlog.title} by ${newBlog.author} added`)
+      setTimeout(() => {
+        setErrorMessage(null)
+        setMessageColor("red")
+      }, 5000)
     } catch (exception) {
-      // Creating note was unsuccessful
+      // Creating blog was unsuccessful
+      setErrorMessage("Token or blog data is invalid")
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -76,6 +93,8 @@ const App = () => {
     return (
       <div>
         <h2>log in to application</h2>
+
+        <Notification message={errorMessage} color={messageColor}></Notification>
 
         <form onSubmit={ handleLogin }>
           <div> 
@@ -104,6 +123,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+
+      <Notification message={errorMessage} color={messageColor}></Notification>
 
       <div>
         {user.name} logged in
