@@ -4,15 +4,13 @@ import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
+import BlogForm from './components/Blogform'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [messageColor, setMessageColor] = useState("red")
 
@@ -62,17 +60,10 @@ const App = () => {
     setUser(null)
   }
 
-  const createNote = async (event) => {
-    event.preventDefault()
-
+  const addBlog = async (blogData) => {
     try {
-      const blogData = { title, author, url }
       const newBlog = await blogService.createBlog(blogData)
       setBlogs(blogs.concat(newBlog))
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
 
       // Set notification to show up for 5 seconds when a new blog is added
       setMessageColor("green")
@@ -133,34 +124,7 @@ const App = () => {
       </div>
 
       <Togglable buttonLabel="new note">
-        <h2>create new blog</h2>
-
-        <form onSubmit={createNote}>
-          title:
-          <input
-            type="text"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-          <br />
-
-          author:
-          <input
-            type="text"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-          <br />
-
-          url:
-          <input
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
-          <br />
-          <button type="submit" >create</button>
-        </form>
+        <BlogForm updateBlogs={addBlog} />
       </Togglable>
       <br />
 
