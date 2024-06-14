@@ -123,7 +123,7 @@ const App = () => {
         <button onClick={logOut}>logout</button>
       </div>
 
-      <Togglable buttonLabel="new note">
+      <Togglable buttonLabel="create new blog">
         <BlogForm updateBlogs={addBlog} />
       </Togglable>
       <br />
