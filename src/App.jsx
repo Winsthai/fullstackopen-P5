@@ -3,12 +3,13 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -17,8 +18,8 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
 
   // Effect hook to check if user is already logged in
@@ -33,7 +34,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     // Render error if HTTP POST request to login fails, else update the user token
     try {
       const user = await loginService.login({
@@ -65,7 +66,7 @@ const App = () => {
     event.preventDefault()
 
     try {
-      const blogData = {title, author, url}
+      const blogData = { title, author, url }
       const newBlog = await blogService.createBlog(blogData)
       setBlogs(blogs.concat(newBlog))
 
@@ -96,22 +97,22 @@ const App = () => {
 
         <Notification message={errorMessage} color={messageColor}></Notification>
 
-        <form onSubmit={ handleLogin }>
-          <div> 
-            username 
-              <input 
-              type="text" 
-              value={username} 
+        <form onSubmit={handleLogin}>
+          <div>
+            username
+            <input
+              type="text"
+              value={username}
               onChange={({ target }) => setUsername(target.value)}
-              />
+            />
           </div>
-          <div> 
-            password 
-              <input 
-              type="password" 
-              value={password} 
+          <div>
+            password
+            <input
+              type="password"
+              value={password}
               onChange={({ target }) => setPassword(target.value)}
-              />
+            />
           </div>
 
           <button type='submit' >login</button>
@@ -128,38 +129,40 @@ const App = () => {
 
       <div>
         {user.name} logged in
-        <button onClick={ logOut }>logout</button>
+        <button onClick={logOut}>logout</button>
       </div>
 
-      <h2>create new</h2>
+      <Togglable buttonLabel="new note">
+        <h2>create new blog</h2>
 
-      <form onSubmit={ createNote }>
-        title: 
-        <input
-        type="text" 
-        value={title} 
-        onChange={({ target }) => setTitle(target.value)}
-        />
-        <br/>
-        
-        author: 
-        <input
-        type="text" 
-        value={author} 
-        onChange={({ target }) => setAuthor(target.value)}
-        />
-        <br/>
+        <form onSubmit={createNote}>
+          title:
+          <input
+            type="text"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
+          <br />
 
-        url: 
-        <input
-        type="text" 
-        value={url} 
-        onChange={({ target }) => setUrl(target.value)}
-        />
-        <br/>
-        <button type="submit" >create</button>
-      </form>
-      <br/>
+          author:
+          <input
+            type="text"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+          <br />
+
+          url:
+          <input
+            type="text"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
+          />
+          <br />
+          <button type="submit" >create</button>
+        </form>
+      </Togglable>
+      <br />
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
