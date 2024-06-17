@@ -15,8 +15,10 @@ const App = () => {
   const [messageColor, setMessageColor] = useState("red")
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
+      blogs.sort((a, b) => b.likes - a.likes )
       setBlogs(blogs)
+    }
     )
   }, [])
 
@@ -63,7 +65,7 @@ const App = () => {
   const addBlog = async (blogData) => {
     try {
       const newBlog = await blogService.createBlog(blogData)
-      setBlogs(blogs.concat(newBlog))
+      setBlogs(blogs.concat(newBlog).sort((a, b) => b.likes - a.likes ))
 
       // Set notification to show up for 5 seconds when a new blog is added
       setMessageColor("green")
@@ -83,7 +85,7 @@ const App = () => {
 
   const updateBlog = async (blog, newBlogData) => {
       const updatedBlog = await blogService.updateBlog(blog.id, newBlogData)
-      const newBlogs = blogs.map(oldBlog => oldBlog.id === blog.id ? updatedBlog : oldBlog)
+      const newBlogs = blogs.map(oldBlog => oldBlog.id === blog.id ? updatedBlog : oldBlog).sort((a, b) => b.likes - a.likes )
       setBlogs(newBlogs)
     }
 
