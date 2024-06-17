@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -19,12 +19,24 @@ const Blog = ({ blog }) => {
     setButtonText(prevText => (prevText === 'View' ? 'Hide' : 'View'));
   }
 
+  const updateLikes = async () => {
+    const newBlogData = {
+      user: blog.user[0].id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    updateBlog(blog, newBlogData)
+  }
+
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author} <button onClick={toggleVisibility} >{buttonText}</button>
       <div style={showWhenVisible}>
-        {blog.url} <br/>
-        likes: {blog.likes} <button>like</button> <br/>
+        {blog.url} <br />
+        likes: {blog.likes} <button onClick={updateLikes}>like</button> <br />
         {blog.user[0].name}
       </div>
     </div>
