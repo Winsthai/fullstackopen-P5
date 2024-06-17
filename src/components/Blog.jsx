@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -19,7 +19,7 @@ const Blog = ({ blog, updateBlog }) => {
     setButtonText(prevText => (prevText === 'View' ? 'Hide' : 'View'));
   }
 
-  const updateLikes = async () => {
+  const updateLikes = () => {
     const newBlogData = {
       user: blog.user[0].id,
       likes: blog.likes + 1,
@@ -31,13 +31,21 @@ const Blog = ({ blog, updateBlog }) => {
     updateBlog(blog, newBlogData)
   }
 
+  const deleteButton = () => {
+    // Prompt confirmation window
+    if (window.confirm(`Remove blog "${blog.title}" by "${blog.author}"?`)) {
+      deleteBlog(blog)
+    }
+  }
+
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author} <button onClick={toggleVisibility} >{buttonText}</button>
       <div style={showWhenVisible}>
         {blog.url} <br />
         likes: {blog.likes} <button onClick={updateLikes}>like</button> <br />
-        {blog.user[0].name}
+        {blog.user[0].name} <br/>
+        <button onClick={deleteButton}>remove</button>
       </div>
     </div>
   )

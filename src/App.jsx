@@ -89,6 +89,29 @@ const App = () => {
       setBlogs(newBlogs)
     }
 
+  const deleteBlog = async blog => {
+    try {
+      await blogService.deleteBlog(blog.id)
+
+      setBlogs(blogs.filter(oldBlog => blog.id !== oldBlog.id).sort((a, b) => b.likes - a.likes ))
+
+      // Set notification to show up for 5 seconds when a blog is deleted
+      setMessageColor("green")
+      setErrorMessage(`${blog.title} by ${blog.author} deleted`)
+      setTimeout(() => {
+        setErrorMessage(null)
+        setMessageColor("red")
+      }, 5000)
+    } catch (exception) {
+      // Deleting blog was unsuccessful
+      setMessageColor("red")
+      setErrorMessage("You can only delete a blog if you are the user who created it")
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -137,7 +160,7 @@ const App = () => {
       <br />
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
       )}
     </div>
   )
