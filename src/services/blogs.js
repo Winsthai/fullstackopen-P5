@@ -25,7 +25,7 @@ const getAll = () => {
 }
 
 // Update an existing blog
-const updateBlog = async (id, newBlog) => { 
+const updateBlog = async (id, newBlog) => {
   const response = await axios.put(`${baseUrl}/${id}`, newBlog)
   return response.data
 }

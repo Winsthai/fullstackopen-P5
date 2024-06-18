@@ -12,11 +12,11 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
-  const [messageColor, setMessageColor] = useState("red")
+  const [messageColor, setMessageColor] = useState('red')
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      blogs.sort((a, b) => b.likes - a.likes )
+      blogs.sort((a, b) => b.likes - a.likes)
       setBlogs(blogs)
     }
     )
@@ -65,18 +65,18 @@ const App = () => {
   const addBlog = async (blogData) => {
     try {
       const newBlog = await blogService.createBlog(blogData)
-      setBlogs(blogs.concat(newBlog).sort((a, b) => b.likes - a.likes ))
+      setBlogs(blogs.concat(newBlog).sort((a, b) => b.likes - a.likes))
 
       // Set notification to show up for 5 seconds when a new blog is added
-      setMessageColor("green")
+      setMessageColor('green')
       setErrorMessage(`${newBlog.title} by ${newBlog.author} added`)
       setTimeout(() => {
         setErrorMessage(null)
-        setMessageColor("red")
+        setMessageColor('red')
       }, 5000)
     } catch (exception) {
       // Creating blog was unsuccessful
-      setErrorMessage("Token or blog data is invalid")
+      setErrorMessage('Token or blog data is invalid')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -84,28 +84,28 @@ const App = () => {
   }
 
   const updateBlog = async (blog, newBlogData) => {
-      const updatedBlog = await blogService.updateBlog(blog.id, newBlogData)
-      const newBlogs = blogs.map(oldBlog => oldBlog.id === blog.id ? updatedBlog : oldBlog).sort((a, b) => b.likes - a.likes )
-      setBlogs(newBlogs)
-    }
+    const updatedBlog = await blogService.updateBlog(blog.id, newBlogData)
+    const newBlogs = blogs.map(oldBlog => oldBlog.id === blog.id ? updatedBlog : oldBlog).sort((a, b) => b.likes - a.likes)
+    setBlogs(newBlogs)
+  }
 
   const deleteBlog = async blog => {
     try {
       await blogService.deleteBlog(blog.id)
 
-      setBlogs(blogs.filter(oldBlog => blog.id !== oldBlog.id).sort((a, b) => b.likes - a.likes ))
+      setBlogs(blogs.filter(oldBlog => blog.id !== oldBlog.id).sort((a, b) => b.likes - a.likes))
 
       // Set notification to show up for 5 seconds when a blog is deleted
-      setMessageColor("green")
+      setMessageColor('green')
       setErrorMessage(`${blog.title} by ${blog.author} deleted`)
       setTimeout(() => {
         setErrorMessage(null)
-        setMessageColor("red")
+        setMessageColor('red')
       }, 5000)
     } catch (exception) {
       // Deleting blog was unsuccessful
-      setMessageColor("red")
-      setErrorMessage("You can only delete a blog if you are the user who created it")
+      setMessageColor('red')
+      setErrorMessage('You can only delete a blog if you are the user who created it')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)

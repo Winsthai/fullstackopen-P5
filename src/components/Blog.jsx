@@ -12,11 +12,11 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
-  const [buttonText, setButtonText] = useState('View');
+  const [buttonText, setButtonText] = useState('View')
 
   const toggleVisibility = () => {
     setVisible(!visible)
-    setButtonText(prevText => (prevText === 'View' ? 'Hide' : 'View'));
+    setButtonText(prevText => (prevText === 'View' ? 'Hide' : 'View'))
   }
 
   const updateLikes = () => {
