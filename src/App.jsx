@@ -4,7 +4,7 @@ import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
-import BlogForm from './components/Blogform'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
