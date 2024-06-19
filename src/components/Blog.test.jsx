@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
 import userEvent from '@testing-library/user-event'
@@ -51,7 +50,7 @@ test('blog\'s URL and number of likes are shown when the button to show details 
 test('if the like button is clicked twice, the event handler the component received as props is called twice', async () => {
   const mockHandler = vi.fn()
 
-  const { container } = render(<Blog blog={blog} updateBlog={mockHandler}/>)
+  const { container } = render(<Blog blog={blog} updateBlog={mockHandler} />)
 
   const user = userEvent.setup()
   const button = container.querySelector('.showDetails')
