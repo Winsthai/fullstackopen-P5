@@ -48,7 +48,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         {blog.author}
       </span>
       &nbsp;
-      <button onClick={toggleVisibility} >{buttonText}</button>
+      <button onClick={toggleVisibility} className='showDetails' >{buttonText}</button>
       <div style={showWhenVisible}>
         {blog.url} <br />
         likes: {blog.likes} <button onClick={updateLikes}>like</button> <br />
