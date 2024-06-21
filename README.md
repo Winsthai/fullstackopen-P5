@@ -11,3 +11,4 @@
     - Render function to render components
     - Screen object to get content or use screen.debug() function to print HTML to console
     - Using companion library **user-event** to simulate user input
+- E2E testing using playwright ([Link to separate repository containing tests](https://github.com/Winsthai/fullstackopen-P5-e2e))
