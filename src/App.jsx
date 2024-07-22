@@ -5,6 +5,8 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
+import { setNotification } from "./reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +15,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [messageColor, setMessageColor] = useState("red");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
@@ -48,11 +52,7 @@ const App = () => {
 
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
     } catch (exception) {
-      // Login was unsuccessful
-      setErrorMessage("Wrong credentials");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      dispatch(setNotification("Wrong credentials", "red", 5));
     }
   };
 
@@ -67,18 +67,16 @@ const App = () => {
       setBlogs(blogs.concat(newBlog).sort((a, b) => b.likes - a.likes));
 
       // Set notification to show up for 5 seconds when a new blog is added
-      setMessageColor("green");
-      setErrorMessage(`${newBlog.title} by ${newBlog.author} added`);
-      setTimeout(() => {
-        setErrorMessage(null);
-        setMessageColor("red");
-      }, 5000);
+      dispatch(
+        setNotification(
+          `${newBlog.title} by ${newBlog.author} added`,
+          "green",
+          5
+        )
+      );
     } catch (exception) {
       // Creating blog was unsuccessful
-      setErrorMessage("Token or blog data is invalid");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      dispatch(setNotification("Token or blog data is invalid", "red", 5));
     }
   };
 
@@ -97,25 +95,22 @@ const App = () => {
       setBlogs(
         blogs
           .filter((oldBlog) => blog.id !== oldBlog.id)
-          .sort((a, b) => b.likes - a.likes),
+          .sort((a, b) => b.likes - a.likes)
       );
 
       // Set notification to show up for 5 seconds when a blog is deleted
-      setMessageColor("green");
-      setErrorMessage(`${blog.title} by ${blog.author} deleted`);
-      setTimeout(() => {
-        setErrorMessage(null);
-        setMessageColor("red");
-      }, 5000);
-    } catch (exception) {
-      // Deleting blog was unsuccessful
-      setMessageColor("red");
-      setErrorMessage(
-        "You can only delete a blog if you are the user who created it",
+      dispatch(
+        setNotification(`${blog.title} by ${blog.author} deleted`, "green", 5)
       );
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+    } catch (exception) {
+      // Deleting blog was unsuccessful (should not be possible anyways)
+      dispatch(
+        setNotification(
+          "You can only delete a blog if you are the user who created it",
+          "red",
+          5
+        )
+      );
     }
   };
 
@@ -124,10 +119,7 @@ const App = () => {
       <div>
         <h2>log in to application</h2>
 
-        <Notification
-          message={errorMessage}
-          color={messageColor}
-        ></Notification>
+        <Notification></Notification>
 
         <form onSubmit={handleLogin}>
           <div>
@@ -159,7 +151,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      <Notification message={errorMessage} color={messageColor}></Notification>
+      <Notification></Notification>
 
       <div>
         {user.name} logged in
