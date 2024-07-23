@@ -9,9 +9,9 @@ import { setNotification } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogsReducer";
 import { getSortedBlogsByLikes } from "./services/selectors";
+import { setUser } from "./reducers/userReducer";
 
 const App = () => {
-  const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,10 +28,14 @@ const App = () => {
     const loggedInUser = window.localStorage.getItem("loggedInUser");
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser);
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
     }
   }, []);
+
+  const user = useSelector((state) => {
+    return state.user;
+  });
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -44,7 +48,7 @@ const App = () => {
       });
 
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(setUser(user));
       setUsername("");
       setPassword("");
 
@@ -56,7 +60,7 @@ const App = () => {
 
   const logOut = () => {
     window.localStorage.removeItem("loggedInUser");
-    setUser(null);
+    dispatch(setUser(null));
   };
 
   const updateBlog = async (blog, newBlogData) => {
@@ -117,7 +121,7 @@ const App = () => {
       <br />
 
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} user={user} />
+        <Blog key={blog.id} blog={blog} user={user} />
       ))}
     </div>
   );

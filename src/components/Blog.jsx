@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../reducers/notificationReducer";
-import blogService from "../services/blogs";
-import { deleteBlog, incrementLike, likeBlog } from "../reducers/blogsReducer";
+import { deleteBlog, incrementLike } from "../reducers/blogsReducer";
 
-const Blog = ({ blog, updateBlog, user }) => {
+const Blog = ({ blog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -27,16 +25,6 @@ const Blog = ({ blog, updateBlog, user }) => {
 
   const updateLikes = () => {
     dispatch(incrementLike(blog));
-
-    /* const newBlogData = {
-      user: blog.user[0].id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    };
-
-    updateBlog(blog, newBlogData); */
   };
 
   const deleteButton = async () => {
