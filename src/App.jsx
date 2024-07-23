@@ -68,7 +68,7 @@ const App = () => {
     setBlogs(newBlogs);
   };
 
-  const deleteBlog = async (blog) => {
+  /* const deleteBlog = async (blog) => {
     try {
       await blogService.deleteBlog(blog.id);
 
@@ -92,7 +92,7 @@ const App = () => {
         )
       );
     }
-  };
+  }; */
 
   if (user === null) {
     return (
@@ -144,13 +144,7 @@ const App = () => {
       <br />
 
       {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          updateBlog={updateBlog}
-          deleteBlog={deleteBlog}
-          user={user}
-        />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} user={user} />
       ))}
     </div>
   );

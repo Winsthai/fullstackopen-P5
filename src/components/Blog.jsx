@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../reducers/notificationReducer";
+import blogService from "../services/blogs";
+import { deleteBlog } from "../reducers/blogsReducer";
 
-const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
+const Blog = ({ blog, updateBlog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -8,6 +12,8 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+
+  const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
 
@@ -31,10 +37,10 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
     updateBlog(blog, newBlogData);
   };
 
-  const deleteButton = () => {
+  const deleteButton = async () => {
     // Prompt confirmation window
     if (window.confirm(`Remove blog "${blog.title}" by "${blog.author}"?`)) {
-      deleteBlog(blog);
+      dispatch(deleteBlog(blog));
     }
   };
 
