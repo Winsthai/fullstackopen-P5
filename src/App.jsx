@@ -8,6 +8,7 @@ import BlogForm from "./components/BlogForm";
 import { setNotification } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogsReducer";
+import { getSortedBlogsByLikes } from "./services/selectors";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -20,9 +21,7 @@ const App = () => {
     dispatch(initializeBlogs());
   }, []);
 
-  const blogs = useSelector((state) => {
-    return [...state.blogs].sort((a, b) => b.likes - a.likes);
-  });
+  const blogs = useSelector(getSortedBlogsByLikes);
 
   // Effect hook to check if user is already logged in
   useEffect(() => {
@@ -67,32 +66,6 @@ const App = () => {
       .sort((a, b) => b.likes - a.likes);
     setBlogs(newBlogs);
   };
-
-  /* const deleteBlog = async (blog) => {
-    try {
-      await blogService.deleteBlog(blog.id);
-
-      setBlogs(
-        blogs
-          .filter((oldBlog) => blog.id !== oldBlog.id)
-          .sort((a, b) => b.likes - a.likes)
-      );
-
-      // Set notification to show up for 5 seconds when a blog is deleted
-      dispatch(
-        setNotification(`${blog.title} by ${blog.author} deleted`, "green", 5)
-      );
-    } catch (exception) {
-      // Deleting blog was unsuccessful (should not be possible anyways)
-      dispatch(
-        setNotification(
-          "You can only delete a blog if you are the user who created it",
-          "red",
-          5
-        )
-      );
-    }
-  }; */
 
   if (user === null) {
     return (
