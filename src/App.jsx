@@ -6,24 +6,23 @@ import loginService from "./services/login";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import { setNotification } from "./reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs } from "./reducers/blogsReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [messageColor, setMessageColor] = useState("red");
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-    });
+    dispatch(initializeBlogs());
   }, []);
+
+  const blogs = useSelector((state) => {
+    return [...state.blogs].sort((a, b) => b.likes - a.likes);
+  });
 
   // Effect hook to check if user is already logged in
   useEffect(() => {
@@ -59,25 +58,6 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem("loggedInUser");
     setUser(null);
-  };
-
-  const addBlog = async (blogData) => {
-    try {
-      const newBlog = await blogService.createBlog(blogData);
-      setBlogs(blogs.concat(newBlog).sort((a, b) => b.likes - a.likes));
-
-      // Set notification to show up for 5 seconds when a new blog is added
-      dispatch(
-        setNotification(
-          `${newBlog.title} by ${newBlog.author} added`,
-          "green",
-          5
-        )
-      );
-    } catch (exception) {
-      // Creating blog was unsuccessful
-      dispatch(setNotification("Token or blog data is invalid", "red", 5));
-    }
   };
 
   const updateBlog = async (blog, newBlogData) => {
@@ -159,7 +139,7 @@ const App = () => {
       </div>
 
       <Togglable buttonLabel="create new blog">
-        <BlogForm updateBlogs={addBlog} />
+        <BlogForm />
       </Togglable>
       <br />
 
