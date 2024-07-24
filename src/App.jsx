@@ -12,6 +12,7 @@ import { Routes, Route } from "react-router-dom";
 import Users from "./components/Users";
 import User from "./components/User";
 import Blog from "./components/Blog";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -58,11 +59,6 @@ const App = () => {
     } catch (exception) {
       dispatch(setNotification("Wrong credentials", "red", 5));
     }
-  };
-
-  const logOut = () => {
-    window.localStorage.removeItem("loggedInUser");
-    dispatch(setUser(null));
   };
 
   const updateBlog = async (blog, newBlogData) => {
@@ -112,10 +108,7 @@ const App = () => {
 
       <Notification></Notification>
 
-      <div>
-        {user.name} logged in <br />
-        <button onClick={logOut}>logout</button>
-      </div>
+      <Navbar></Navbar>
 
       <Routes>
         <Route
