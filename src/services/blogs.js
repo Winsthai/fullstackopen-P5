@@ -24,6 +24,12 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+// Get a single blog
+const getBlog = (id) => {
+  const request = axios.get(`${baseUrl}/${id}`);
+  return request.then((response) => response.data);
+};
+
 // Update an existing blog
 const updateBlog = async (id, newBlog) => {
   const response = await axios.put(`${baseUrl}/${id}`, newBlog);
@@ -39,4 +45,11 @@ const deleteBlog = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, headers);
 };
 
-export default { getAll, createBlog, setToken, updateBlog, deleteBlog };
+export default {
+  getAll,
+  createBlog,
+  setToken,
+  updateBlog,
+  deleteBlog,
+  getBlog,
+};

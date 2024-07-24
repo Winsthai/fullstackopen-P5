@@ -8,9 +8,10 @@ import { initializeBlogs } from "./reducers/blogsReducer";
 import { getSortedBlogsByLikes } from "./services/selectors";
 import { setUser } from "./reducers/userReducer";
 import BlogList from "./components/Bloglist";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Users from "./components/Users";
 import User from "./components/User";
+import Blog from "./components/Blog";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -123,6 +124,7 @@ const App = () => {
         ></Route>
         <Route path="/users" element={<Users></Users>}></Route>
         <Route path="/users/:id" element={<User></User>}></Route>
+        <Route path="/blogs/:id" element={<Blog></Blog>}></Route>
       </Routes>
     </div>
   );
