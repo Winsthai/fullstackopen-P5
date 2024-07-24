@@ -10,6 +10,7 @@ import { setUser } from "./reducers/userReducer";
 import BlogList from "./components/Bloglist";
 import { Routes, Route, Link } from "react-router-dom";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -120,7 +121,8 @@ const App = () => {
           path="/"
           element={<BlogList blogs={blogs} user={user}></BlogList>}
         ></Route>
-        <Route path="users" element={<Users></Users>}></Route>
+        <Route path="/users" element={<Users></Users>}></Route>
+        <Route path="/users/:id" element={<User></User>}></Route>
       </Routes>
     </div>
   );
