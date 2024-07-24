@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogsReducer";
 import { getSortedBlogsByLikes } from "./services/selectors";
 import { setUser } from "./reducers/userReducer";
+import Users from "./components/Users";
 
 const App = () => {
   const [username, setUsername] = useState("");
