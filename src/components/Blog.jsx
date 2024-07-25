@@ -6,6 +6,8 @@ import { deleteBlog, incrementLike } from "../reducers/blogsReducer";
 
 const Blog = () => {
   const [blog, setBlog] = useState();
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ const Blog = () => {
   useEffect(() => {
     blogService.getBlog(id).then((blog) => {
       setBlog(blog);
+      setComments(blog.comments);
     });
   }, []);
 
@@ -42,6 +45,18 @@ const Blog = () => {
     }
   };
 
+  const addNewComment = (event) => {
+    event.preventDefault();
+
+    const commentToAdd = {
+      comment: comment,
+    };
+
+    blogService.addComment(commentToAdd, blog.id);
+
+    setComments(comments.concat(comment));
+  };
+
   return (
     <div>
       <h2>{blog.title}</h2>
@@ -59,8 +74,17 @@ const Blog = () => {
         remove
       </button>
       <h3>comments</h3>
+      <form onSubmit={addNewComment}>
+        <input
+          type="text"
+          value={comment}
+          onChange={({ target }) => setComment(target.value)}
+          placeholder="Type comment here"
+        ></input>
+        <button>add comment</button>
+      </form>
       <ul>
-        {blog.comments.map((comment) => (
+        {comments.map((comment) => (
           <li>{comment}</li>
         ))}
       </ul>

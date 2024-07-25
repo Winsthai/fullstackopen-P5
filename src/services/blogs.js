@@ -45,6 +45,12 @@ const deleteBlog = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, headers);
 };
 
+// Add a comment to a blog
+const addComment = async (comment, id) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, comment);
+  return response.data;
+};
+
 export default {
   getAll,
   createBlog,
@@ -52,4 +58,5 @@ export default {
   updateBlog,
   deleteBlog,
   getBlog,
+  addComment,
 };
