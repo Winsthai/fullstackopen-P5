@@ -58,6 +58,12 @@ const Blog = () => {
       >
         remove
       </button>
+      <h3>comments</h3>
+      <ul>
+        {blog.comments.map((comment) => (
+          <li>{comment}</li>
+        ))}
+      </ul>
     </div>
   );
 };
