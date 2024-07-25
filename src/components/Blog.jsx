@@ -58,7 +58,7 @@ const Blog = () => {
   };
 
   return (
-    <div>
+    <div className="text-text-primary">
       <h2>{blog.title}</h2>
       <a href={blog.url}>{blog.url}</a>
       <div>

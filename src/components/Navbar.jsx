@@ -8,7 +8,6 @@ const Navbar = () => {
   };
 
   const navbarStyle = {
-    backgroundColor: "#d3d3d3",
     padding: 5,
     borderRadius: "3px",
   };
@@ -25,15 +24,24 @@ const Navbar = () => {
   };
 
   return (
-    <div style={navbarStyle}>
-      <Link to="/" style={padding}>
-        blogs
+    <div
+      style={navbarStyle}
+      className="text-text-nav font-bold flex justify-center items-center bg-bg-secondary w-1/3 border-2"
+    >
+      <Link to="/" style={padding} className="hover:text-text-emphasize mr-10">
+        Blogs
       </Link>
-      <Link to="/users" style={padding}>
-        users
+      <Link
+        to="/users"
+        style={padding}
+        className="hover:text-text-emphasize mr-10"
+      >
+        Users
       </Link>
       {user.name} logged in &nbsp;
-      <button onClick={logOut}>logout</button>
+      <button onClick={logOut} className="hover:text-text-emphasize ml-2 p-2">
+        Logout
+      </button>
     </div>
   );
 };

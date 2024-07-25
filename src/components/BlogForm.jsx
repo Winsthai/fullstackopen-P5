@@ -25,13 +25,14 @@ const BlogForm = () => {
     <>
       <h2>create new blog</h2>
 
-      <form onSubmit={createBlogs}>
+      <form onSubmit={createBlogs} className="grid">
         title:
         <input
           type="text"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
           placeholder="Type title here"
+          className="text-bg-primary ml-5 p-0.5"
         />
         <br />
         author:
@@ -40,6 +41,7 @@ const BlogForm = () => {
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
           placeholder="Type author here"
+          className="text-bg-primary ml-5 p-0.5"
         />
         <br />
         url:
@@ -48,9 +50,12 @@ const BlogForm = () => {
           value={url}
           onChange={({ target }) => setUrl(target.value)}
           placeholder="Type url here"
+          className="text-bg-primary ml-5 p-0.5"
         />
         <br />
-        <button type="submit">create</button>
+        <button type="submit" className="hover:text-text-emphasize">
+          create
+        </button>
       </form>
     </>
   );

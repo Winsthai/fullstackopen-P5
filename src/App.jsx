@@ -103,12 +103,16 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <div className="bg-bg-primary">
+      <h2 className="text-text-primary text-7xl font-sans p-10 font-bold">
+        Blogs
+      </h2>
 
       <Notification></Notification>
 
-      <Navbar></Navbar>
+      <div className="flex justify-center items-center">
+        <Navbar></Navbar>
+      </div>
 
       <Routes>
         <Route

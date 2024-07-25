@@ -12,13 +12,23 @@ const Togglable = (props) => {
   };
 
   return (
-    <div>
+    <div className="text-text-primary flex justify-center items-center bg-bg-secondary w-1/4 border-2">
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <button
+          onClick={toggleVisibility}
+          className="p-2 size-fit hover:text-text-emphasize"
+        >
+          {props.buttonLabel}
+        </button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="">
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <button
+          onClick={toggleVisibility}
+          className="hover:text-text-emphasize"
+        >
+          cancel
+        </button>
       </div>
     </div>
   );
